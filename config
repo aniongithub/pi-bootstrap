@@ -1,0 +1,27 @@
+# The directory this config file lives in
+CONFIG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
+
+export IMG_NAME=${IMAGE_NAME}
+export TARGET_HOSTNAME=${HOSTNAME}
+
+TIMEZONE=$(cat /etc/timezone)
+export TIMEZONE_DEFAULT=$TIMEZONE
+
+# TODO: Fix this!
+export LOCALE_DEFAULT=${LANG:="en_US.UTF-8"}
+
+export FIRST_USER_NAME=${FIRST_USER}
+export FIRST_USER_PASS=${FIRST_USERPASS}
+
+export ENABLE_SSH=${SSH_ENABLED}
+
+# Add additional mounts containing custom steps and files it needs
+export ADDL_MOUNTS="${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro ${CONFIG_DIR}/bootstrap-resources:/bootstrap-resources:ro"
+
+# We only want to build a lite image
+export STAGE_LIST="stage0 stage1 stage2"
+
+# Set up WiFi
+export WPA_ESSID=${WPA_SSID}
+export WPA_PASSWORD=${WPA_PASSPHRASE}
+export WPA_COUNTRY=${WPA_COUNTRY}

@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  # Run jobs on push to master or feature branches
+  push:
+    branches:
+      - main
+      - feature-*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+          qemu-version: latest
+      
+      - name: Build
+        env:
+          SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+          SECRET_HOSTNAME: ${{ secrets.HOSTNAME }}
+          SECRET_FIRST_USER: ${{ secrets.FIRST_USER }}
+          SECRET_FIRST_USERPASS: ${{ secrets.FIRST_USER_PASS }}
+          SECRET_SSH_ENABLED: ${{ secrets.SSH_ENABLED }}
+          SECRET_WPA_SSID: ${{ secrets.WPA_SSID }}
+          SECRET_WPA_PASSPHRASE: ${{ secrets.WPA_PASSPHRASE }}
+          SECRET_WPA_COUNTRY: ${{ secrets.WPA_COUNTRY }}
+        run: |
+          pushd pi-gen
+          trap "popd; exit" INT TERM EXIT
+          ./build-docker.sh -c ../config IMAGE_NAME="${SECRET_IMAGE_NAME}" HOSTNAME="${SECRET_HOSTNAME}" FIRST_USER="${SECRET_FIRST_USER}" FIRST_USERPASS="${SECRET_FIRST_USER_PASS}" SSH_ENABLED="${SECRET_SSH_ENABLED}" WPA_SSID="${SECRET_WPA_SSID}" WPA_PASSPHRASE="${SECRET_WPA_PASSPHRASE}" WPA_COUNTRY="${SECRET_WPA_COUNTRY}"
