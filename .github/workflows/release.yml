@@ -4,6 +4,7 @@ on:
     types: [edited, published]
     branches:
       - main
+      - feature-*
 
 jobs:
   release:
