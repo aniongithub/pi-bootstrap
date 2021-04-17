@@ -2,19 +2,29 @@ name: Manual
 
 on: 
   workflow_dispatch:
+    env:
+      REPO_NAME: ${{ github.event.repository.name }}
+      SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+      SECRET_HOSTNAME: ${{ secrets.HOSTNAME }}
+      SECRET_FIRST_USER: ${{ secrets.FIRST_USER }}
+      SECRET_FIRST_USERPASS: ${{ secrets.FIRST_USER_PASS }}
+      SECRET_SSH_ENABLED: ${{ secrets.SSH_ENABLED }}
+      SECRET_WPA_SSID: ${{ secrets.WPA_SSID }}
+      SECRET_WPA_PASSPHRASE: ${{ secrets.WPA_PASSPHRASE }}
+      SECRET_WPA_COUNTRY: ${{ secrets.WPA_COUNTRY }}
     inputs:
       image_name:
         description: "Image name"
         required: true
-        default: ${{ github.event.repository.name }}
+        default: ${{ env.REPO_NAME }}
       host_name:
         description: "Host name"
         required: true
-        default: ${{ github.event.repository.name }}
+        default: ${{ env.REPO_NAME }}
       first_user:
         description: "Name of the first user on the pi"
         required: true
-        default: pi
+        default: ${{ secrets.FIRST_USER }}
       first_userpass:
         description: "Password of the first user on the pi. WARNING: Sensitive information, use with caution"
         required: true
