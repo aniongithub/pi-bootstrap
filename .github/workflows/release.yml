@@ -1,14 +1,12 @@
-name: CI
-
+name: Release
 on:
-  # Run jobs on push to master or feature branches
-  push:
+  release:
+    types: [created]
     branches:
       - main
-      - feature-*
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,4 +35,20 @@ jobs:
         run: |
           pushd pi-gen
           trap "popd; exit" INT TERM EXIT
-          ./build-docker.sh -c ../config IMAGE_NAME="${SECRET_IMAGE_NAME}" HOSTNAME="${SECRET_HOSTNAME}" FIRST_USER="${SECRET_FIRST_USER}" FIRST_USERPASS="${SECRET_FIRST_USER_PASS}" SSH_ENABLED="${SECRET_SSH_ENABLED}" WPA_SSID="${SECRET_WPA_SSID}" WPA_PASSPHRASE="${SECRET_WPA_PASSPHRASE}" WPA_COUNTRY="${SECRET_WPA_COUNTRY}"
+          ./build-docker.sh -c ../config \
+            IMAGE_NAME="${SECRET_IMAGE_NAME}" \
+            HOSTNAME="${SECRET_HOSTNAME}" \
+            FIRST_USER="${SECRET_FIRST_USER}" \
+            FIRST_USERPASS="${SECRET_FIRST_USER_PASS}" \
+            SSH_ENABLED="${SECRET_SSH_ENABLED}" \
+            WPA_SSID="${SECRET_WPA_SSID}" \
+            WPA_PASSPHRASE="${SECRET_WPA_PASSPHRASE}" \
+            WPA_COUNTRY="${SECRET_WPA_COUNTRY}"
+        
+      - name: Publish binaries  
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+        with:
+          args: 'pi-gen/deploy/*.zip'
