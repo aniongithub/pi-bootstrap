@@ -42,10 +42,10 @@ jobs:
             WPA_PASSPHRASE="${SECRET_WPA_PASSPHRASE}" \
             WPA_COUNTRY="${SECRET_WPA_COUNTRY}"
 
-      - name: Publish binaries  
-        uses: skx/github-action-publish-binaries@master
+      - name: Upload artifacts  
+        uses: actions/upload-artifact@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
         with:
-          args: 'pi-gen/deploy/*.zip'
+          name: ${{ SECRET_IMAGE_NAME }}
+          path: 'pi-gen/deploy/*.zip'
