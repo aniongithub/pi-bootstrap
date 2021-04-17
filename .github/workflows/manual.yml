@@ -75,5 +75,5 @@ jobs:
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
         with:
-          name: "${{ github.event.repository.name }}-${{ github.sha }}.zip"
+          name: "${{ github.event.inputs.image_name }}-${{ github.sha }}.zip"
           path: 'pi-gen/deploy/*.zip'
