@@ -47,5 +47,5 @@ jobs:
         env:
           SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
         with:
-          name: ${{ SECRET_IMAGE_NAME }}
+          name: ${SECRET_IMAGE_NAME}
           path: 'pi-gen/deploy/*.zip'
