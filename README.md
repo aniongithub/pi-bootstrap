@@ -3,11 +3,11 @@ A repository that shows how to use Pi-Gen and Github Secrets+Actions to create a
 
 ## Github-only Usage
 
-1. Click ![image-20210416222151898](/home/ani/Projects/pi-bootstrap/media/image-20210416222151898.png)and create a new public/private repository in your account based on this template.
+1. Click ![image-20210416222151898](media/image-20210416222151898.png)and create a new public/private repository in your account based on this template.
 
    :warning: *If you plan to use this repository to create a ready-to-use image that includes your Wi-Fi SSID, passphrase or other private information, it is recommended to create a private repository at this stage*
 
-2. Navigate to ![image-20210416225541954](/home/ani/Projects/pi-bootstrap/media/image-20210416225541954.png)and then ![image-20210416225617502](/home/ani/Projects/pi-bootstrap/media/image-20210416225617502.png) (in the sidebar)
+2. Navigate to ![image-20210416225541954](media/image-20210416225541954.png)and then ![image-20210416225617502](media/image-20210416225617502.png) (in the sidebar)
 
 3. Add secrets and values for the following supported arguments if required. If you're a developer creating more templates for other users, you can skip this step to use defaults or make sure to delete any artifacts that may contain sensitive information. Your secrets will not be propagated to any repositories created using your template
 
