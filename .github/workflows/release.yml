@@ -52,4 +52,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
         with:
-          args: 'pi-gen/deploy/*${SECRET_IMAGE_NAME}*.zip'
+          args: 'pi-gen/deploy/*.zip'
