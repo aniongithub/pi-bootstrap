@@ -13,9 +13,9 @@ A repository that shows how to use Pi-Gen and Github Secrets+Actions to create a
 
 | Name                | Description                                                  |
 | ------------------- | ------------------------------------------------------------ |
-| **IMAGE_NAME**      | This is the name of the generated image. Defaults to the name of the repository |
+| **IMAGE_NAME**      | This is the name of the generated image. Defaults to the name of the repository you created in step 1 |
 | **FIRST_USER**      | The username of the first user on the generated image. Defaults to *pi* |
-| **FIRST_USER_PASS** | The password for the first user on the generate image. Defaults to *raspberry* |
+| **FIRST_USER_PASS** | The password for the first user on the generated image. Defaults to *raspberry* |
 | **HOSTNAME**        | The name with which your newly booted pi will identify itself to any networks. Defaults to *IMAGE_NAME* |
 | **SSH_ENABLED**     | 1 to enable SSH, 0 to disable SSH. Defaults to *1*           |
 | **WPA_COUNTRY**     | Two-character ISO-3166-1 alpha-2 country code for your country. *Not setting this will keep Wi-Fi disabled via rfkill* |
