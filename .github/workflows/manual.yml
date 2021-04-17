@@ -2,33 +2,21 @@ name: Manual
 
 on: 
   workflow_dispatch:
-    env:
-      REPO_NAME: ${{ github.event.repository.name }}
-      SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
-      SECRET_HOSTNAME: ${{ secrets.HOSTNAME }}
-      SECRET_FIRST_USER: ${{ secrets.FIRST_USER }}
-      SECRET_FIRST_USERPASS: ${{ secrets.FIRST_USER_PASS }}
-      SECRET_SSH_ENABLED: ${{ secrets.SSH_ENABLED }}
-      SECRET_WPA_SSID: ${{ secrets.WPA_SSID }}
-      SECRET_WPA_PASSPHRASE: ${{ secrets.WPA_PASSPHRASE }}
-      SECRET_WPA_COUNTRY: ${{ secrets.WPA_COUNTRY }}
     inputs:
       image_name:
         description: "Image name"
         required: true
-        default: ${{ env.REPO_NAME }}
       host_name:
         description: "Host name"
         required: true
-        default: ${{ env.REPO_NAME }}
       first_user:
         description: "Name of the first user on the pi"
         required: true
-        default: ${{ secrets.FIRST_USER }}
+        default: pi
       first_userpass:
         description: "Password of the first user on the pi. WARNING: Sensitive information, use with caution"
         required: true
-        default: ${{ secrets.FIRST_USER_PASS }}
+        default: raspberry
       ssh_enabled:
         description: "1 if SSH should be enabled, 0 otherwise"
         required: true
@@ -36,15 +24,12 @@ on:
       wpa_ssid:
         description: "Wi-Fi SSID to connect automatically on first boot. WARNING: Sensitive information, use with caution"
         required: false
-        default: ${{ secrets.WPA_SSID }}
       wpa_passphrase:
         description: "Passphrase of Wi-Fi network to connect to. WARNING: Sensitive information, use with caution"
         required: false
-        default: ${{ secrets.WPA_PASSPHRASE }}
       wpa_country:
-        description: "ISO-3166-1 alpha-2 country code for the country this image will be used in"
+        description: "ISO-3166-1 alpha-2 country code for the country this image will be used in (US, CA, GB, etc.)"
         required: false
-        default: "US"
 
 jobs:
   build:
@@ -65,27 +50,27 @@ jobs:
       
       - name: Build
         env:
-          DEFAULT_IMAGE_NAME: ${{ github.event.inputs.image_name }}
-          DEFAULT_HOSTNAME: ${{ github.event.inputs.host_name }}
-          DEFAULT_FIRST_USER: ${{ github.event.inputs.first_user }}
-          DEFAULT_FIRST_USERPASS: ${{ github.event.inputs.first_user_pass }}
-          DEFAULT_SSH_ENABLED: ${{ github.event.inputs.ssh_enabled }}
-          DEFAULT_WPA_SSID: ${{ github.event.inputs.wpa_ssid }}
-          DEFAULT_WPA_PASSPHRASE: ${{ github.event.inputs.wpa_passphrase }}
-          DEFAULT_WPA_COUNTRY: ${{ github.event.inputs.wpa_country }}
+          INPUT_IMAGE_NAME: ${{ github.event.inputs.image_name }}
+          INPUT_HOSTNAME: ${{ github.event.inputs.host_name }}
+          INPUT_FIRST_USER: ${{ github.event.inputs.first_user }}
+          INPUT_FIRST_USERPASS: ${{ github.event.inputs.first_user_pass }}
+          INPUT_SSH_ENABLED: ${{ github.event.inputs.ssh_enabled }}
+          INPUT_WPA_SSID: ${{ github.event.inputs.wpa_ssid }}
+          INPUT_WPA_PASSPHRASE: ${{ github.event.inputs.wpa_passphrase }}
+          INPUT_WPA_COUNTRY: ${{ github.event.inputs.wpa_country }}
 
         run: |
           pushd pi-gen
           trap "popd; exit" INT TERM EXIT
           ./build-docker.sh -c ../config \
-            IMAGE_NAME="${DEFAULT_IMAGE_NAME}" \
+            IMAGE_NAME="${INPUT_IMAGE_NAME}" \
             HOSTNAME="${DFAULT_HOSTNAME}" \
-            FIRST_USER="${DEFAULT_FIRST_USER}" \
-            FIRST_USERPASS="${DEFAULT_FIRST_USERPASS}" \
-            SSH_ENABLED="${DEFAULT_SSH_ENABLED}" \
-            WPA_SSID="${DEFAULT_WPA_SSID}" \
-            WPA_PASSPHRASE="${DEFAULT_WPA_PASSPHRASE}" \
-            WPA_COUNTRY="${DEFAULT_WPA_COUNTRY}"
+            FIRST_USER="${INPUT_FIRST_USER}" \
+            FIRST_USERPASS="${INPUT_FIRST_USERPASS}" \
+            SSH_ENABLED="${INPUT_SSH_ENABLED}" \
+            WPA_SSID="${INPUT_WPA_SSID:=''}" \
+            WPA_PASSPHRASE="${INPUT_WPA_PASSPHRASE:=''}" \
+            WPA_COUNTRY="${INPUT_WPA_COUNTRY:=''}"
 
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
