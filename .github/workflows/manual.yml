@@ -68,9 +68,9 @@ jobs:
             FIRST_USER="${INPUT_FIRST_USER}" \
             FIRST_USERPASS="${INPUT_FIRST_USERPASS}" \
             SSH_ENABLED="${INPUT_SSH_ENABLED}" \
-            WPA_SSID="${INPUT_WPA_SSID:=''}" \
-            WPA_PASSPHRASE="${INPUT_WPA_PASSPHRASE:=''}" \
-            WPA_COUNTRY="${INPUT_WPA_COUNTRY:=''}"
+            WPA_SSID="${INPUT_WPA_SSID}" \
+            WPA_PASSPHRASE="${INPUT_WPA_PASSPHRASE}" \
+            WPA_COUNTRY="${INPUT_WPA_COUNTRY}"
 
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
