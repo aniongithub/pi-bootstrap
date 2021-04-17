@@ -1,11 +1,6 @@
 name: Manual
 
-on:
-  # Run jobs on push to master or feature branches
-  workflow_dispatch:
-    branches:
-      - main
-      - feature-*
+on: [workflow_dispatch]
 
 jobs:
   build:
