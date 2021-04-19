@@ -20,3 +20,17 @@ export ADDL_MOUNTS="${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro ${CON
 
 # We only want to build a lite image
 export STAGE_LIST="stage0 stage1 stage2"
+
+# Set up WiFi
+if [[ -z $WPA_SSID || -z $WPA_PASSPHRASE || -z $WPA_COUNTRY ]]
+then
+    echo "Skipping Wi-Fi setup, one or more required Wi-Fi fields were not provided"
+    unset WPA_ESSID
+    unset WPA_PASSWORD
+    unset WPA_COUNTRY
+else
+    echo "Setting up Wi-Fi, step 1/2..."
+    export WPA_ESSID="${WPA_SSID}"
+    export WPA_PASSWORD="${WPA_PASSPHRASE}"
+    export WPA_COUNTRY="${WPA_COUNTRY}"
+fi
