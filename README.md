@@ -1,7 +1,7 @@
 # pi-bootstrap
 A repository that shows how to use Pi-Gen and Github Actions to create a ready-to-use Raspberry Pi image that includes connectivity to your home Wi-Fi, custom packages and build steps without opening a terminal or any manual setup. You can do all of this directly within the Github UI, which significantly lowers the barrier of entry for novice users, who don't need to understand a lot of the technical details.
 
-:gear: This repository is intended as a basic template for developers who wish to create ready-to-use bootstrap repositories meant for novice users. See aniongithub/raspotify-appliance for an example of a repository meant for novice end-users to use directly
+:gear: This repository is intended as a basic template for developers who wish to create ready-to-use bootstrap repositories meant for novice users. See [aniongithub/raspotify-appliance](https://github.com/aniongithub/raspotify-appliance) for an example of a repository meant for novice end-users to use directly
 
 ## Github Actions Usage
 
