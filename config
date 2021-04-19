@@ -1,17 +1,17 @@
 # The directory this config file lives in
 CONFIG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
 
-export IMG_NAME=${IMAGE_NAME}
-export TARGET_HOSTNAME=${HOSTNAME}
+export IMG_NAME="${IMAGE_NAME}"
+export TARGET_HOSTNAME="${HOSTNAME}"
 
 TIMEZONE=$(cat /etc/timezone)
-export TIMEZONE_DEFAULT=$TIMEZONE
+export TIMEZONE_DEFAULT="$TIMEZONE"
 
 # TODO: Fix this!
 export LOCALE_DEFAULT=${LANG:="en_US.UTF-8"}
 
-export FIRST_USER_NAME=${FIRST_USER}
-export FIRST_USER_PASS=${FIRST_USERPASS}
+export FIRST_USER_NAME="${FIRST_USER}"
+export FIRST_USER_PASS="${FIRST_USERPASS}"
 
 export ENABLE_SSH=${SSH_ENABLED}
 

@@ -61,6 +61,5 @@ jobs:
         uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
         with:
           args: 'pi-gen/deploy/*.zip'

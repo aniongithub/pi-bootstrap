@@ -42,7 +42,7 @@ A repository that shows how to use Pi-Gen and Github Actions to create a ready-t
 
    :warning: Make sure to delete or hide any artifacts that may contain sensitive information. Your secrets will not be propagated to any repositories created using your template, but artifacts and logs may be visible to anyone who can see the repository
 
-9. Burn the image from step 8 onto a microSD card using [Imager](https://www.raspberrypi.org/software/), Etcher](https://www.balena.io/etcher/) or another program of you choice.
+9. Burn the image from step 8 onto a microSD card using [Imager](https://www.raspberrypi.org/software/), [Etcher](https://www.balena.io/etcher/) or another program of you choice.
 
 10. Pop the microSD card into your pi, power it up and wait for it to boot (green light stops flickering). Test your custom image and repeat steps 4-9 as needed
 
