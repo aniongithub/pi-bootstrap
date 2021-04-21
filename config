@@ -16,7 +16,7 @@ if [[ ! -z TIMEZONE ]]; then export TIMEZONE_DEFAULT="$TIMEZONE"; fi
 if [[ ! -z LOCALE ]]; then export LOCALE_DEFAULT="$LOCALE"; fi
 if [[ ! -z FIRST_USER ]]; then export FIRST_USER_NAME="$FIRST_USER"; fi
 if [[ ! -z FIRST_USERPASS ]]; then export FIRST_USER_PASS="$FIRST_USERPASS"; fi
-if [[ ! -z ENABLE_SSH ]]; then export ENABLE_SSH="$SSH_ENABLED"; else export ENABLE_SSH=1 fi
+if [[ ! -z ENABLE_SSH ]]; then export ENABLE_SSH="$SSH_ENABLED"; else export ENABLE_SSH=1; fi
 
 # Add additional mounts containing custom steps and files it needs
 export ADDL_MOUNTS="${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro ${CONFIG_DIR}/bootstrap-resources:/bootstrap-resources:ro"
@@ -42,3 +42,16 @@ else
     export WPA_PASSWORD="${WPA_PASSPHRASE}"
     export WPA_COUNTRY="${WPA_COUNTRY}"
 fi
+
+# Enable rasberry pi camera
+# https://raspberrypi.stackexchange.com/a/14247/114267
+if [ ! -z ENABLE_CAMERA ] && [ "$ENABLE_CAMERA" == 1 ]
+then
+    echo "Enabling camera..."
+    
+    export START_X=1
+    
+    # Only set GPU_MEM to min reqd. if not specified
+    if [[ -z GPU_MEM ]]; then export GPU_MEM="128"; fi
+fi
+foo
