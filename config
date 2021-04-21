@@ -54,4 +54,3 @@ then
     # Only set GPU_MEM to min reqd. if not specified
     if [[ -z GPU_MEM ]]; then export GPU_MEM="128"; fi
 fi
-foo
