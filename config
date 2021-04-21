@@ -2,18 +2,21 @@
 CONFIG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
 
 export IMG_NAME="${IMAGE_NAME}"
-export TARGET_HOSTNAME="${HOSTNAME}"
 
-TIMEZONE=$(cat /etc/timezone)
-export TIMEZONE_DEFAULT="$TIMEZONE"
+# All mandatory variables needed for pi-gen
+# or custom step should be exported above this line
+# Allow unset variables so we can provide defaults
+# for optional variables
+set +u
+trap "set -u" SIGINT SIGTERM ERR EXIT
 
-# TODO: Fix this!
-export LOCALE_DEFAULT=${LANG:="en_US.UTF-8"}
-
-export FIRST_USER_NAME="${FIRST_USER}"
-export FIRST_USER_PASS="${FIRST_USERPASS}"
-
-export ENABLE_SSH=${SSH_ENABLED}
+# Any unset pi-gen variables will use defaults
+if [[ ! -z HOSTNAME ]]; then export TARGET_HOSTNAME="$HOSTNAME"; else export TARGET_HOSTNAME="raspberrypi"; fi
+if [[ ! -z TIMEZONE ]]; then export TIMEZONE_DEFAULT="$TIMEZONE"; fi
+if [[ ! -z LOCALE ]]; then export LOCALE_DEFAULT="$LOCALE"; fi
+if [[ ! -z FIRST_USER ]]; then export FIRST_USER_NAME="$FIRST_USER"; fi
+if [[ ! -z FIRST_USERPASS ]]; then export FIRST_USER_PASS="$FIRST_USERPASS"; fi
+if [[ ! -z ENABLE_SSH ]]; then export ENABLE_SSH="$SSH_ENABLED"; else export ENABLE_SSH=1 fi
 
 # Add additional mounts containing custom steps and files it needs
 export ADDL_MOUNTS="${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro ${CONFIG_DIR}/bootstrap-resources:/bootstrap-resources:ro"
@@ -21,10 +24,15 @@ export ADDL_MOUNTS="${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro ${CON
 # We only want to build a lite image
 export STAGE_LIST="stage0 stage1 stage2"
 
-# Set up WiFi
+# Set up optional stuff here
+
+# Set up Wi-Fi only if all required values have been specified
+# This is an extra export for pi-gen to do some stuff otherwise
+# Wi-Fi doesn't get enabled correctly. Part 2 of this lives in
+# bootstrap/01-run.sh
 if [[ -z $WPA_SSID || -z $WPA_PASSPHRASE || -z $WPA_COUNTRY ]]
 then
-    echo "Skipping Wi-Fi setup, one or more required Wi-Fi fields were not provided"
+    echo "Skipping Wi-Fi setup, one or more required Wi-Fi fields were not provided."
     unset WPA_ESSID
     unset WPA_PASSWORD
     unset WPA_COUNTRY
