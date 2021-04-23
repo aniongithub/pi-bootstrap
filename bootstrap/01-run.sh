@@ -45,6 +45,19 @@ else
     wpa_passphrase ${WPA_SSID} ${WPA_PASSPHRASE} >> ${BOOTFS_DIR}/wpa_supplicant.conf
 fi
 
+# Custom "convenience things" that raspi-config does for us go here.
+
+# Enable rasberry pi camera
+# https://raspberrypi.stackexchange.com/a/14247/114267
+if [ ! -z ENABLE_CAMERA ] && [ "$ENABLE_CAMERA" == "1" ]; then
+    echo "Enabling camera..."
+
+    export START_X=1
+
+    # Only set GPU_MEM to min reqd. if not specified
+    if [[ -z GPU_MEM ]]; then export GPU_MEM="128"; fi
+fi
+
 # Individual options
 if [[ ! -z $START_X ]]
 then

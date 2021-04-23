@@ -1,56 +1,25 @@
 # The directory this config file lives in
-CONFIG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
+CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-export IMG_NAME="${IMAGE_NAME}"
+export IMG_NAME="${IMAGE_NAME:=pi-bootstrap}"
+export TARGET_HOSTNAME="${HOSTNAME:=pi-bootstrap}"
+export FIRST_USER_NAME=${FIRST_USER:=pi}
+export FIRST_USER_PASS=${FIRST_USERPASS:=rasberry}
+export ENABLE_SSH=${SSH_ENABLED:=1}
 
-# All mandatory variables needed for pi-gen
-# or custom step should be exported above this line
-# Allow unset variables so we can provide defaults
-# for optional variables
-set +u
-trap "set -u" SIGINT SIGTERM ERR EXIT
+export WPA_ESSID=${WPA_SSID:=""}
+export WPA_PASSWORD=${WPA_PASSPHRASE:=""}
+export WPA_COUNTRY=${WPA_COUNTRY:=""}
 
-# Any unset pi-gen variables will use defaults
-if [[ ! -z HOSTNAME ]]; then export TARGET_HOSTNAME="$HOSTNAME"; else export TARGET_HOSTNAME="raspberrypi"; fi
-if [[ ! -z TIMEZONE ]]; then export TIMEZONE_DEFAULT="$TIMEZONE"; fi
-if [[ ! -z LOCALE ]]; then export LOCALE_DEFAULT="$LOCALE"; fi
-if [[ ! -z FIRST_USER ]]; then export FIRST_USER_NAME="$FIRST_USER"; fi
-if [[ ! -z FIRST_USERPASS ]]; then export FIRST_USER_PASS="$FIRST_USERPASS"; fi
-if [[ ! -z ENABLE_SSH ]]; then export ENABLE_SSH="$SSH_ENABLED"; else export ENABLE_SSH=1; fi
+export LOCALE_DEFAULT=${LOCALE:=$(localectl status | sed -n -e 's/^.*LANG=//p')}
+export KEYBOARD_KEYMAP=${KEYMAP:=$(localectl status | sed -n -e 's/^.*X11 Layout: //p')}
+export KEYBOARD_LAYOUT=${KEY_LAYOUT:=$(debconf-show keyboard-configuration | sed -n -e 's/^.*keyboard-configuration\/layout: //p')}
+export TIMEZONE_DEFAULT=${TIMEZONE:=$(cat /etc/timezone)}
 
 # Add additional mounts containing custom steps and files it needs
-export ADDL_MOUNTS="${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro ${CONFIG_DIR}/bootstrap-resources:/bootstrap-resources:ro"
+export DOCKER_ADDL_MOUNTS=(
+    "${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro"
+    "${CONFIG_DIR}/bootstrap-resources:/bootstrap-resources:ro")
 
 # We only want to build a lite image
 export STAGE_LIST="stage0 stage1 stage2"
-
-# Set up optional stuff here
-
-# Set up Wi-Fi only if all required values have been specified
-# This is an extra export for pi-gen to do some stuff otherwise
-# Wi-Fi doesn't get enabled correctly. Part 2 of this lives in
-# bootstrap/01-run.sh
-if [[ -z $WPA_SSID || -z $WPA_PASSPHRASE || -z $WPA_COUNTRY ]]
-then
-    echo "Skipping Wi-Fi setup, one or more required Wi-Fi fields were not provided."
-    unset WPA_ESSID
-    unset WPA_PASSWORD
-    unset WPA_COUNTRY
-else
-    echo "Setting up Wi-Fi, step 1/2..."
-    export WPA_ESSID="${WPA_SSID}"
-    export WPA_PASSWORD="${WPA_PASSPHRASE}"
-    export WPA_COUNTRY="${WPA_COUNTRY}"
-fi
-
-# Enable rasberry pi camera
-# https://raspberrypi.stackexchange.com/a/14247/114267
-if [ ! -z ENABLE_CAMERA ] && [ "$ENABLE_CAMERA" == 1 ]
-then
-    echo "Enabling camera..."
-    
-    export START_X=1
-    
-    # Only set GPU_MEM to min reqd. if not specified
-    if [[ -z GPU_MEM ]]; then export GPU_MEM="128"; fi
-fi
