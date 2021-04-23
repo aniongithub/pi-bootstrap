@@ -1,36 +1,25 @@
 # The directory this config file lives in
-CONFIG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
+CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-export IMG_NAME="${IMAGE_NAME}"
-export TARGET_HOSTNAME="${HOSTNAME}"
+export IMG_NAME="${IMAGE_NAME:=pi-bootstrap}"
+export TARGET_HOSTNAME="${HOSTNAME:=pi-bootstrap}"
+export FIRST_USER_NAME=${FIRST_USER:=pi}
+export FIRST_USER_PASS=${FIRST_USERPASS:=rasberry}
+export ENABLE_SSH=${SSH_ENABLED:=1}
 
-TIMEZONE=$(cat /etc/timezone)
-export TIMEZONE_DEFAULT="$TIMEZONE"
+export WPA_ESSID=${WPA_SSID:=""}
+export WPA_PASSWORD=${WPA_PASSPHRASE:=""}
+export WPA_COUNTRY=${WPA_COUNTRY:=""}
 
-# TODO: Fix this!
-export LOCALE_DEFAULT=${LANG:="en_US.UTF-8"}
-
-export FIRST_USER_NAME="${FIRST_USER}"
-export FIRST_USER_PASS="${FIRST_USERPASS}"
-
-export ENABLE_SSH=${SSH_ENABLED}
+export LOCALE_DEFAULT=${LOCALE:=$(localectl status | sed -n -e 's/^.*LANG=//p')}
+export KEYBOARD_KEYMAP=${KEYMAP:=$(localectl status | sed -n -e 's/^.*X11 Layout: //p')}
+export KEYBOARD_LAYOUT=${KEY_LAYOUT:=$(debconf-show keyboard-configuration | sed -n -e 's/^.*keyboard-configuration\/layout: //p')}
+export TIMEZONE_DEFAULT=${TIMEZONE:=$(cat /etc/timezone)}
 
 # Add additional mounts containing custom steps and files it needs
-export ADDL_MOUNTS="${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro ${CONFIG_DIR}/bootstrap-resources:/bootstrap-resources:ro"
+export DOCKER_ADDL_MOUNTS=(
+    "${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro"
+    "${CONFIG_DIR}/bootstrap-resources:/bootstrap-resources:ro")
 
 # We only want to build a lite image
 export STAGE_LIST="stage0 stage1 stage2"
-
-# Set up WiFi
-if [[ -z $WPA_SSID || -z $WPA_PASSPHRASE || -z $WPA_COUNTRY ]]
-then
-    echo "Skipping Wi-Fi setup, one or more required Wi-Fi fields were not provided"
-    unset WPA_ESSID
-    unset WPA_PASSWORD
-    unset WPA_COUNTRY
-else
-    echo "Setting up Wi-Fi, step 1/2..."
-    export WPA_ESSID="${WPA_SSID}"
-    export WPA_PASSWORD="${WPA_PASSPHRASE}"
-    export WPA_COUNTRY="${WPA_COUNTRY}"
-fi

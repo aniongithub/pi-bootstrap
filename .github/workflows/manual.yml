@@ -30,6 +30,15 @@ on:
       wpa_country:
         description: "ISO-3166-1 alpha-2 country code for the country this image will be used in (US, CA, GB, etc.)"
         required: false
+      enable_camera:
+        description: "Enable onboard camera support"
+        required: true
+        default: "0"
+      gpu_memory:
+        description: "Set GPU amount of GPU memory (in MB)"
+        required: true
+        default: "128"
+
 
 jobs:
   build:
@@ -58,6 +67,8 @@ jobs:
           INPUT_WPA_SSID: ${{ github.event.inputs.wpa_ssid }}
           INPUT_WPA_PASSPHRASE: ${{ github.event.inputs.wpa_passphrase }}
           INPUT_WPA_COUNTRY: ${{ github.event.inputs.wpa_country }}
+          INPUT_ENABLE_CAMERA: ${{ github.event.inputs.enable_camera }}
+          INPUT_GPU_MEM: ${{ github.event.inputs.gpu_memory }}
 
         run: |
           pushd pi-gen
@@ -70,7 +81,9 @@ jobs:
             SSH_ENABLED="${INPUT_SSH_ENABLED}" \
             WPA_SSID="${INPUT_WPA_SSID}" \
             WPA_PASSPHRASE="${INPUT_WPA_PASSPHRASE}" \
-            WPA_COUNTRY="${INPUT_WPA_COUNTRY}"
+            WPA_COUNTRY="${INPUT_WPA_COUNTRY}" \
+            ENABLE_CAMERA="${INPUT_ENABLE_CAMERA}" \
+            GPU_MEM="${INPUT_GPU_MEM}"
 
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
