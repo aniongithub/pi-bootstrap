@@ -1,4 +1,4 @@
 [submodule "pi-gen"]
 	path = pi-gen
 	url = https://github.com/aniongithub/pi-gen.git
-	branch = feature-refactor
+	branch = master
