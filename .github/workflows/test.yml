@@ -1,0 +1,61 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+          qemu-version: latest
+      
+      - name: Build
+        env:
+          SECRET_IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+          DEFAULT_IMAGE_NAME: ${{ github.event.repository.name }}
+
+          SECRET_HOSTNAME: ${{ secrets.HOSTNAME }}
+          DEFAULT_HOSTNAME: ${{ github.event.repository.name }}
+
+          SECRET_FIRST_USER: ${{ secrets.FIRST_USER }}
+          DEFAULT_FIRST_USER: pi
+          
+          SECRET_FIRST_USERPASS: ${{ secrets.FIRST_USER_PASS }}
+          DEFAULT_FIRST_USERPASS: raspberry
+
+          SECRET_SSH_ENABLED: ${{ secrets.SSH_ENABLED }}
+          DEFAULT_SSH_ENABLED: 1
+
+          # No defaults for these values
+          SECRET_WPA_SSID: ${{ secrets.WPA_SSID }}
+          SECRET_WPA_PASSPHRASE: ${{ secrets.WPA_PASSPHRASE }}
+          SECRET_WPA_COUNTRY: ${{ secrets.WPA_COUNTRY }}
+        run: |
+          pushd pi-gen
+          trap "popd; exit" INT TERM EXIT
+          ./build-docker.sh -c ../config \
+            IMAGE_NAME="${SECRET_IMAGE_NAME:-${DEFAULT_IMAGE_NAME}}" \
+            HOSTNAME="${SECRET_HOSTNAME:-${DEFAULT_IMAGE_NAME}}" \
+            FIRST_USER="${SECRET_FIRST_USER:-${DEFAULT_FIRST_USER}}" \
+            FIRST_USERPASS="${SECRET_FIRST_USER_PASS:-${DEFAULT_FIRST_USERPASS}}" \
+            SSH_ENABLED="${SECRET_SSH_ENABLED:${DEFAULT_SSH_ENABLED}}" \
+            WPA_SSID="${SECRET_WPA_SSID}" \
+            WPA_PASSPHRASE="${SECRET_WPA_PASSPHRASE}" \
+            WPA_COUNTRY="${SECRET_WPA_COUNTRY}"
+
+      - name: Upload artifacts  
+        uses: actions/upload-artifact@v2
+        with:
+          name: "${{ github.event.inputs.image_name }}-${{ github.sha }}.zip"
+          path: 'pi-gen/deploy/*.zip'
