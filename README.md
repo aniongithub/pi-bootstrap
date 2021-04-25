@@ -35,7 +35,7 @@ Youtube video explaining the what, why and how.
 5. Optionally, you can edit [config](config), [bootstrap/01-run.sh](bootstrap/01-run.sh) and/or [bootstrap/02-run.sh](bootstrap/02-run.sh) to add, remove or re-order custom installation steps and commit your changes
    :gear: See [raspotify-appliance](https://github.com/aniongithub/raspotify-appliance/blob/4630f5e29d3b1fb35e4e65169327b97377b4f06a/.github/workflows/release.yml#L54) for an example of how to add custom secrets (`DEVICE_NAME`) that are then propagated to [config](config) via [pi-gen/build-docker.sh](pi-gen/build-docker.sh) to any custom build steps you create
 
-6. If you want to build an image for testing, navigate to ![image-20210416232008223](media/image-20210416232008223.png)and select the ![image-20210424193432121](/home/ani/Projects/pi-bootstrap/media/image-20210424193432121.png) workflow. You can then pick the branch want to build the test image with:
+6. If you want to build an image for testing, navigate to ![image-20210416232008223](media/image-20210416232008223.png)and select the ![image-20210424193432121](media/image-20210424193432121.png) workflow. You can then pick the branch want to build the test image with:
    ![image-20210416232231819](media/image-20210416232231819.png)
 
    *:gear: You can also use the `Manual` workflow for a fully parameterized run without using secrets. However, be aware that any private information will show up in logs for that run.*
