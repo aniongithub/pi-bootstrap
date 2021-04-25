@@ -33,11 +33,13 @@ Youtube video explaining the what, why and how.
 4. Navigate to the ![image-20210416231117301](media/image-20210416231117301.png) tab and then edit [bootstrap/00-packages](bootstrap/00-packages) to add or remove any packages your custom image might need
 
 5. Optionally, you can edit [config](config), [bootstrap/01-run.sh](bootstrap/01-run.sh) and/or [bootstrap/02-run.sh](bootstrap/02-run.sh) to add, remove or re-order custom installation steps and commit your changes
-   :gear: See [.github/workflows/manual.yml](.github/workflows/manual.yml) for an example of how to add custom secrets that are then propagated to [config](config) via [pi-gen/build-docker.sh](pi-gen/build-docker.sh) to any custom build steps you create
+   :gear: See [raspotify-appliance](https://github.com/aniongithub/raspotify-appliance/blob/4630f5e29d3b1fb35e4e65169327b97377b4f06a/.github/workflows/release.yml#L54) for an example of how to add custom secrets (`DEVICE_NAME`) that are then propagated to [config](config) via [pi-gen/build-docker.sh](pi-gen/build-docker.sh) to any custom build steps you create
 
-6. Finally, to build an image for testing, navigate to ![image-20210416232008223](media/image-20210416232008223.png)and select the ![image-20210416232050305](media/image-20210416232050305.png)workflow. You can then pick the branch want to build
+6. If you want to build an image for testing, navigate to ![image-20210416232008223](media/image-20210416232008223.png)and select the ![image-20210424193432121](/home/ani/Projects/pi-bootstrap/media/image-20210424193432121.png) workflow. You can then pick the branch want to build the test image with:
    ![image-20210416232231819](media/image-20210416232231819.png)
 
+   *:gear: You can also use the `Manual` workflow for a fully parameterized run without using secrets. However, be aware that any private information will show up in logs for that run.*
+   
 7. Click ![image-20210416232332897](media/image-20210416232332897.png) and wait for the workflow run to finish. This may take 30+ minutes, depending on the packages and custom installation steps you've selected
 
    :warning: Free Github accounts only come with 2000 minutes of (Linux) Actions usage per month, so be careful with your usage minutes!
@@ -46,13 +48,13 @@ Youtube video explaining the what, why and how.
 
    :warning: Make sure to delete or hide any artifacts that may contain sensitive information. Your secrets will not be propagated to any repositories created using your template, but artifacts and logs may be visible to anyone who can see the repository
 
-9. Burn the image from step 8 onto a microSD card using [Imager](https://www.raspberrypi.org/software/), [Etcher](https://www.balena.io/etcher/) or another program of you choice.
+9. Burn the image from step 8 onto a micro-SD card using [Imager](https://www.raspberrypi.org/software/), [Etcher](https://www.balena.io/etcher/) or another program of you choice
 
-10. Pop the microSD card into your pi, power it up and wait for it to boot (green light stops flickering). Test your custom image and repeat steps 4-9 as needed
+10. Insert the micro-SD card into your pi, power it up and wait for it to boot. Repeat steps 4-10 as needed
 
-11. Once you're happy with your custom image, you can create a release to lock in that configuration for posterity. Go to the ![image-20210416231117301](media/image-20210416231117301.png)tab and click ![image-20210416233657764](media/image-20210416233657764.png)on the right. Enter all release details and hit ![image-20210416233817873](media/image-20210416233817873.png)
+11. Once you're happy with your custom image, you can create a release to lock in that configuration for posterity. Go to the ![image-20210416231117301](media/image-20210416231117301.png)tab and click ![image-20210416233657764](media/image-20210416233657764.png)on the right. Enter your release details and hit ![image-20210416233817873](media/image-20210416233817873.png)
 
-12. Wait for the release workflow to finish and you should see your new release appear in the ![image-20210416234024343](media/image-20210416234024343.png) section along with your newly-minted image (and the source code packages it was built from)
+12. Wait for the `Release` workflow to finish and you should see your new release appear in the ![image-20210416234024343](media/image-20210416234024343.png) section along with your newly-minted image (and the source code packages it was built from)
 
 13. Burn your custom image onto a microSD card using [Imager](https://www.raspberrypi.org/software/) or [Etcher](https://www.balena.io/etcher/) and start using it in your Raspberry pi!
 
