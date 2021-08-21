@@ -1,0 +1,11 @@
+# Enable camera
+
+RUN << EOF
+setValue /boot/config.txt start_x 1
+EOF
+
+# Min. 128MB of GPU memory required for camera support
+gpu_mem=${BOOTSTRAP_GPU_MEM:-128}
+RUN << EOF
+setValue /boot/config.txt gpu_mem $gpu_mem
+EOF

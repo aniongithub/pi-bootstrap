@@ -1,0 +1,3 @@
+# Write hostname to /etc/hostname and /etc/hosts
+RUN sed -i "s/raspberrypi/${BOOTSTRAP_HOSTNAME}/g" /etc/hostname
+RUN sed -i "s/raspberrypi/${BOOTSTRAP_HOSTNAME}/g" /etc/hosts

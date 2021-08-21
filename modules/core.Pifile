@@ -1,0 +1,63 @@
+# Set up core functions, software, environment, etc. 
+# Required to use pi-bootstrap modules
+
+# Commonly used functions
+
+# https://fabianlee.org/2019/10/05/bash-setting-and-replacing-values-in-a-properties-file-use-sed/
+# Get/Set values in a file with key=value type fields
+
+function getValue() {
+    local filename=$1
+    local thekey=$2
+    local defaultVal=$3
+    local result=$(sed -rn "s/^${thekey}=([^\n]+)$/\1/p" ${filename} | xargs)
+    [ -z "${result}" ] && echo $defaultVal || echo $result
+}
+
+function setValue() {
+    local filename=$1
+
+    
+    # Create the file if it doesn't exist
+    if [ -f $filename ]
+    then
+        echo "File $filename exists, re-using..."
+    else
+        echo "File $filename not found, creating..."
+        touch $filename
+    fi
+
+    local thekey=$2
+    local newvalue=$3
+
+    if ! grep -R "^[#]*\s*${thekey}=.*" $filename > /dev/null; then
+        echo "Could not find key $thekey, adding it and setting value"
+        echo "$thekey=$newvalue" >> $filename
+    else
+        echo "Key $thekey found, updating value"
+        sed -ir "s/^[#]*\s*${thekey}=.*/$thekey=\"$newvalue\"/" $filename
+    fi
+}
+
+# Export these functions so they're available in chroot
+# https://stackoverflow.com/a/30792189/802203
+export -f getValue
+export -f setValue
+
+root_pifile=$1
+dir="$(dirname $root_pifile)"
+if [ -f "$dir/.env" ]; then
+    # Set up environment configured in our env file
+    # https://unix.stackexchange.com/a/79077/358706
+    set -o allexport
+    . $dir/.env
+    set +o allexport
+fi
+
+if [ -f "$dir/secrets.env" ]; then
+    # Set up environment configured in our env file
+    # https://unix.stackexchange.com/a/79077/358706
+    set -o allexport
+    . $dir/secrets.env
+    set +o allexport
+fi

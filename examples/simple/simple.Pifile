@@ -1,0 +1,23 @@
+FROM https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
+
+# Sets up env from .env and secrets.env for this Pifile
+# Usually included as the first line after a FROM/TO/INPLACE
+source modules/core.Pifile
+
+# Enable SSH, commend to disable SSH
+source modules/ssh.Pifile
+
+# Set the hostname using BOOTSTRAP_HOSTNAME in .env
+source modules/hostname.Pifile
+
+# Set/change the password for BOOTSTRAP_USER (default: pi) to BOOTSTRAP_PASSWORD (default: b00tstrap)
+source modules/password.Pifile
+
+# Set the timezone to BOOTSTRAP_TIMEZONE (default: /etc/timezone on the build host)
+# Note: This is from secrets.env to avoid setting it on a CI server
+source modules/timezone.Pifile
+
+# Set up wpa_supplicant.conf and enable wifi using
+# BOOTSTRAP_WPA_SSID, BOOTSTRAP_WPA_PASSPHRASE and BOOTSTRAP_WPA_COUNTRY 
+# Note: all three need to be set to enable wifi
+source modules/wifi.Pifile
