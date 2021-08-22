@@ -7,17 +7,16 @@ source modules/core.Pifile
 # Enable SSH, commend to disable SSH
 source modules/ssh.Pifile
 
-# Set the hostname using BOOTSTRAP_HOSTNAME in .env
+# Set the hostname using BOOTSTRAP_HOSTNAME in .env (default: pi-bootstrap)
 source modules/hostname.Pifile
 
 # Set/change the password for BOOTSTRAP_USER (default: pi) to BOOTSTRAP_PASSWORD (default: b00tstrap)
 source modules/password.Pifile
 
-# Set the timezone to BOOTSTRAP_TIMEZONE (default: /etc/timezone on the build host)
-# Note: This is from secrets.env to avoid setting it on a CI server
+# Set using BOOTSTRAP_TIMEZONE (default: America/Los_Angeles)
 source modules/timezone.Pifile
 
 # Set up wpa_supplicant.conf and enable wifi using
-# BOOTSTRAP_WPA_SSID, BOOTSTRAP_WPA_PASSPHRASE and BOOTSTRAP_WPA_COUNTRY 
-# Note: all three need to be set to enable wifi
+# BOOTSTRAP_WPA_SSID, BOOTSTRAP_WPA_PASSPHRASE and BOOTSTRAP_WPA_COUNTRY (defaults: None)
+# Note: all 3 vars need to be set, otherwise wpa_supplicant.conf will not be generated
 source modules/wifi.Pifile

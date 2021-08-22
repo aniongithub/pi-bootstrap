@@ -1,4 +1,4 @@
-user=${BOOTSTRAP_USER:-pi}
+user="${BOOTSTRAP_USER:-pi}"
 
 # Install docker
 RUN << EOF

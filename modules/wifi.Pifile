@@ -2,7 +2,7 @@
 RUN apt-get install -y wpasupplicant
 
 # We need all three to be specified
-if [[ -z $BOOTSTRAP_WPA_SSID || -z $BOOTSTRAP_WPA_PASSPHRASE || -z $BOOTSTRAP_WPA_COUNTRY ]]
+if [[ -z ${BOOTSTRAP_WPA_SSID-} || -z ${BOOTSTRAP_WPA_PASSPHRASE-} || -z ${BOOTSTRAP_WPA_COUNTRY-} ]]
 then
     echo "Skipping generation of wpa_supplicant.conf, one or more required Wi-Fi fields were not provided"
 else
