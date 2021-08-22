@@ -1,0 +1,3 @@
+[submodule "pimod"]
+	path = pimod
+	url = https://github.com/Nature40/pimod.git
