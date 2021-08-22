@@ -8,7 +8,8 @@ then
 else
     echo "Generating wpa_supplicant.conf..."
 
-RUN << EOF
+# Redirect output to prevent echoing sensitive information to stdout
+RUN << EOF &> /dev/null
 # Generate wpa_supplicant.conf in /boot so pi will copy it and disable rfkill on startup
 echo ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev > /boot/wpa_supplicant.conf
 echo update_config=1 >> /boot/wpa_supplicant.conf
