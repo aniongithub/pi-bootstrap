@@ -5,11 +5,6 @@ on:
     branches:
       - main
       - feature-*
-    inputs:
-      pifile:
-        description: "path/to/pifile (without extension)"
-        default: examples/simple/simple
-        required: true
 
 jobs:
   release:
@@ -23,17 +18,17 @@ jobs:
       - name: Write secrets.env
         env:
           SECRETS: ${{ secrets.SECRETS_ENV }}
-          PIFILE: ${{ github.event.inputs.pifile }}.Pifile
+          PIFILE: examples/simple/simple.Pifile
         run: |
           echo $SECRETS > $(dirname $PIFILE)/secrets.env
 
       - name: Build image
         uses: Nature40/pimod@v0.2.2
         with:
-          pifile: ${{ github.event.inputs.pifile }}.Pifile
+          pifile: examples/simple/simple.Pifile
 
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.workflow }}-${{ github.event.release.tag_name }}.zip
-          path: ${{ github.event.inputs.pifile }}.img
+          path: examples/simple/simple.img
