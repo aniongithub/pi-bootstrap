@@ -19,7 +19,7 @@ jobs:
       - name: Write secrets.env
         env:
           SECRETS: ${{ secrets.SECRETS_ENV }}
-          PIFILE: ${{ github.events.inputs.pifile }}.Pifile
+          PIFILE: ${{ github.event.inputs.pifile }}.Pifile
         run: |
           echo $SECRETS > $(dirname $PIFILE)/secrets.env
 
