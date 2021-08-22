@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       pifile:
-        description: "path/to/pifile.Pifile"
+        description: "path/to/pifile (without extension. Ex: examples/simple/simple)"
         required: true
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - name: Write secrets.env
         env:
           SECRETS: ${{ secrets.SECRETS_ENV }}
-          PIFILE: ${{ github.event.inputs.pifile }}
+          PIFILE: ${{ github.event.inputs.pifile }}.Pifile
         run: |
           echo $SECRETS > $(dirname $PIFILE)/secrets.env
 
@@ -31,4 +31,4 @@ jobs:
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
         with:
-          path: '${{ format(github.event.inputs.pifile, ".Pifile", ".img") }}'
+          path: ${{ github.event.inputs.pifile }}.img
