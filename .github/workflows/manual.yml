@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       pifile:
-        description: "path/to/pifile (without extension. Ex: examples/simple/simple)"
+        description: "path/to/pifile (without extension)"
+        default: examples/simple/simple
         required: true
 
 jobs:
@@ -31,4 +32,5 @@ jobs:
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
         with:
+          name: ${{ github.workflow }}-${{ github.sha }}.zip
           path: ${{ github.event.inputs.pifile }}.img
