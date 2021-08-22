@@ -1,0 +1,16 @@
+user="${BOOTSTRAP_USER:-pi}"
+
+# Install docker
+RUN << EOF
+export LC_ALL=C.UTF-8
+bash -c 'curl -sSL get.docker.com | sh'
+groupadd --force docker
+usermod -aG docker $user
+EOF
+
+# Install docker-compose
+RUN << EOF
+apt-get update
+apt-get install -y git build-essential python3-pip
+pip3 install docker-compose
+EOF

@@ -1,0 +1,2 @@
+# Enable SSH
+RUN touch /boot/ssh
