@@ -19,7 +19,7 @@ jobs:
       - name: Write secrets.env
         env:
           SECRETS: ${{ secrets.SECRETS_ENV }}
-          PIFILE: ${{ github.event.inputs.pifile }}.Pifile
+          PIFILE: ${{ github.event.inputs.pifile }}
         run: |
           echo $SECRETS > $(dirname $PIFILE)/secrets.env
 
@@ -31,4 +31,4 @@ jobs:
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
         with:
-          path: '*.img'
+          path: 'replace(${{ github.event.inputs.pifile }}, ".Pifile", ".img")'
