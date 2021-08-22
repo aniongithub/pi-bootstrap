@@ -26,7 +26,7 @@ jobs:
       - name: Build image
         uses: Nature40/pimod@v0.2.2
         with:
-          pifile: ${{ github.events.inputs.pifile }}
+          pifile: ${{ github.event.inputs.pifile }}
 
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
