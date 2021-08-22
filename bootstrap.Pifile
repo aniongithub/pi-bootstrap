@@ -1,3 +1,4 @@
+# Start with the base raspiOS-lite image
 FROM https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
 
 # Sets up env from .env and secrets.env for this Pifile
@@ -19,4 +20,5 @@ source modules/timezone.Pifile
 # Set up wpa_supplicant.conf and enable wifi using
 # BOOTSTRAP_WPA_SSID, BOOTSTRAP_WPA_PASSPHRASE and BOOTSTRAP_WPA_COUNTRY (defaults: None)
 # Note: all 3 vars need to be set, otherwise wpa_supplicant.conf will not be generated
+# and Wi-Fi will be blocked with rfkill
 source modules/wifi.Pifile
