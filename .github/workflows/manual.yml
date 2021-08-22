@@ -24,7 +24,7 @@ jobs:
           echo $SECRETS > $(dirname $PIFILE)/secrets.env
 
       - name: Build image
-        uses: Natur40/pimod@v0.2
+        uses: Nature40/pimod@v0.2.2
         with:
           pifile: ${{ github.events.inputs.pifile }}
 
