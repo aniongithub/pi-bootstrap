@@ -30,6 +30,5 @@ jobs:
 
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
-        env:
         with:
           path: '*.img'
