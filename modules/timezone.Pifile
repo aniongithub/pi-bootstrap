@@ -1,3 +1,2 @@
 # Set the timezone
-RUN ln -sf /usr/share/zoneinfo/${BOOTSTRAP_TIMEZONE} /etc/localtime
-RUN echo ${BOOTSTRAP_TIMEZONE} > /etc/timezone
+RUN bash -c "echo ${BOOTSTRAP_TIMEZONE} > /etc/timezone"
