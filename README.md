@@ -36,4 +36,4 @@ The table below lists variables for each module in pi-bootstrap, confidential va
 
 The flowchart below shows simple usage of pi-bootstrap.
 
-![Usage](assets/pi-bootstrap usage.svg)
+![Usage](assets/pi-bootstrap-usage.svg)
