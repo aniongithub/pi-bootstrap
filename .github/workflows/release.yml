@@ -26,10 +26,14 @@ jobs:
         uses: Nature40/pimod@v0.2.2
         with:
           pifile: bootstrap.Pifile
+          
+      - name: Make tarball
+        run: |
+          tar -czvf bootstrap.tar.gz bootstrap.img
 
       - name: Publish binaries  
         uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: 'bootstrap.img'
+          args: 'bootstrap.tar.gz'
