@@ -27,8 +27,9 @@ jobs:
         with:
           pifile: bootstrap.Pifile
 
-      - name: Upload artifacts  
-        uses: actions/upload-artifact@v2
+      - name: Publish binaries  
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: ${{ github.workflow }}-${{ github.event.release.tag_name }}.zip
-          path: bootstrap.img
+          args: 'bootstrap.img'
