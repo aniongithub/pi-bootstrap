@@ -29,6 +29,10 @@ jobs:
         with:
           pifile: ${{ github.event.inputs.pifile }}.Pifile
 
+      - name: Make tarball
+        run: |
+          tar -czvf bootstrap.tar.gz bootstrap.img
+  
       - name: Upload artifacts  
         uses: actions/upload-artifact@v2
         with:
