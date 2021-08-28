@@ -1,3 +1,6 @@
 # Set the timezone
+
 timezone="${BOOTSTRAP_TIMEZONE:-America/Los_Angeles}"
+echo -n "Setting timezone to ${timezone}..."
 RUN bash -c "echo ${timezone} > /etc/timezone"
+echo "done."

@@ -1,3 +1,4 @@
 [submodule "pimod"]
 	path = pimod
-	url = https://github.com/Nature40/pimod.git
+	url = https://github.com/aniongithub/pimod.git
+	branch = feaure-include

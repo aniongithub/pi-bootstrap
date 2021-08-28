@@ -1,5 +1,7 @@
 # Enable camera
 
+echo -n "Enabling camera..."
+
 RUN << EOF
 setValue /boot/config.txt start_x 1
 EOF
@@ -9,3 +11,5 @@ gpu_mem=${BOOTSTRAP_GPU_MEM:-128}
 RUN << EOF
 setValue /boot/config.txt gpu_mem $gpu_mem
 EOF
+
+echo "done."

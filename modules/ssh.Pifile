@@ -1,2 +1,5 @@
 # Enable SSH
+
+echo -n "Enabling SSH..."
 RUN touch /boot/ssh
+echo "done."

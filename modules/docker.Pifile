@@ -1,5 +1,7 @@
 user="${BOOTSTRAP_USER:-pi}"
 
+echo "Installing docker..."
+
 # Install docker
 RUN << EOF
 export LC_ALL=C.UTF-8
@@ -14,3 +16,5 @@ apt-get update
 apt-get install -y git build-essential python3-pip
 pip3 install docker-compose
 EOF
+
+echo "done."
