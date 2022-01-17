@@ -23,7 +23,7 @@ jobs:
           echo $SECRETS > $(dirname $PIFILE)/secrets.env
 
       - name: Build image
-        uses: Nature40/pimod@v0.2.2
+        uses: Nature40/pimod@v0.4.4
         with:
           pifile: bootstrap.Pifile
           

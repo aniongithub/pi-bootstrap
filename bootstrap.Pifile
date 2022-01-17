@@ -1,24 +1,26 @@
 # Start with the base raspiOS-lite image
 FROM https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
 
+PUMP 2M
+
 # Sets up env from .env and secrets.env for this Pifile
 # Usually included as the first line after a FROM/TO/INPLACE
-source modules/core.Pifile
+INCLUDE modules/core.Pifile
 
 # Enable SSH, commend to disable SSH
-source modules/ssh.Pifile
+INCLUDE modules/ssh.Pifile
 
 # Set the hostname using BOOTSTRAP_HOSTNAME in .env (default: pi-bootstrap)
-source modules/hostname.Pifile
+INCLUDE modules/hostname.Pifile
 
 # Set/change the password for BOOTSTRAP_USER (default: pi) to BOOTSTRAP_PASSWORD (default: b00tstrap)
-source modules/password.Pifile
+INCLUDE modules/password.Pifile
 
 # Set using BOOTSTRAP_TIMEZONE (default: America/Los_Angeles)
-source modules/timezone.Pifile
+INCLUDE modules/timezone.Pifile
 
 # Set up wpa_supplicant.conf and enable wifi using
 # BOOTSTRAP_WPA_SSID, BOOTSTRAP_WPA_PASSPHRASE and BOOTSTRAP_WPA_COUNTRY (defaults: None)
 # Note: all 3 vars need to be set, otherwise wpa_supplicant.conf will not be generated
 # and Wi-Fi will be blocked with rfkill
-source modules/wifi.Pifile
+INCLUDE modules/wifi.Pifile
