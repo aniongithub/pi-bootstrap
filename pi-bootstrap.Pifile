@@ -7,7 +7,10 @@ PUMP 2M
 # Usually included as the first line after a FROM/TO/INPLACE
 INCLUDE modules/core.Pifile
 
-# Enable SSH, commend to disable SSH
+# Sets up locale using BOOTSTRAP_LOCALE (default: en_US ) and BOOTSTRAP_ENCODING (default: UTF-8)
+INCLUDE modules/locale.pifile
+
+# Enable SSH, comment to disable SSH
 INCLUDE modules/ssh.Pifile
 
 # Set the hostname using BOOTSTRAP_HOSTNAME in .env (default: pi-bootstrap)
@@ -24,3 +27,9 @@ INCLUDE modules/timezone.Pifile
 # Note: all 3 vars need to be set, otherwise wpa_supplicant.conf will not be generated
 # and Wi-Fi will be blocked with rfkill
 INCLUDE modules/wifi.Pifile
+
+# Set our startup 
+INCLUDE modules/bootstrap.Pifile
+
+# Enable ethernet over USB
+INCLUDE modules/usb-ethernet.Pifile

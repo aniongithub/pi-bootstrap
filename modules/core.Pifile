@@ -44,9 +44,9 @@ function setValue() {
 export -f getValue
 export -f setValue
 
-root_pifile=$1
-dir="$(dirname $root_pifile)"
-if [ -f "$dir/.env" ]; then
+pifile=$1
+dir="$(dirname $pifile)/.."
+if [[ -f "$dir/.env" ]]; then
     # Set up environment configured in our env file
     # https://unix.stackexchange.com/a/79077/358706
     set -o allexport
@@ -54,7 +54,7 @@ if [ -f "$dir/.env" ]; then
     set +o allexport
 fi
 
-if [ -f "$dir/secrets.env" ]; then
+if [[ -f "$dir/secrets.env" ]]; then
     # Set up environment configured in our env file
     # https://unix.stackexchange.com/a/79077/358706
     set -o allexport

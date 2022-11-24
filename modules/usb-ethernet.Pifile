@@ -1,0 +1,4 @@
+# https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget/ethernet-gadget
+# Change boot parameters to enable ethernet gadget mode
+RUN bash -c 'echo "dtoverlay=dwc2" >> /boot/config.txt'
+RUN bash -c 'echo "$(cat /boot/cmdline.txt) modules-load=dwc2,g_ether" > /boot/cmdline.txt'

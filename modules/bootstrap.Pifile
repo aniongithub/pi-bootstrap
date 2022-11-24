@@ -1,0 +1,56 @@
+export PI_BOOTSTRAP_SERVICE_REQUIRES=${PI_BOOTSTRAP_SERVICE_REQUIRES:=}
+export PI_BOOTSTRAP_SERVICE_AFTER=${PI_BOOTSTRAP_SERVICE_AFTER:=}
+
+# Export any service requirement vars
+if [[ ! -z  ${PI_BOOTSTRAP_SERVICE_REQUIRES} ]]; then
+    RUN export BOOTSTRAP_SERVICE_REQUIRES="Requires=${PI_BOOTSTRAP_SERVICE_REQUIRES}"
+fi
+if [[ ! -z  ${PI_BOOTSTRAP_SERVICE_AFTER} ]]; then
+    RUN export BOOTSTRAP_SERVICE_AFTER="After=${PI_BOOTSTRAP_SERVICE_AFTER}"
+fi
+
+# Install our default scripts
+RUN tee /etc/systemd/system/pi-bootstrap.service <<'EOF'
+
+[Unit]
+Description=Pi appliance bootstrap service
+
+[Service]
+Type=oneshot
+ExecStart=run-parts --exit-on-error /usr/local/sbin/init.d
+RemainAfterExit=true
+ExecStop=run-parts --exit-on-error /usr/local/sbin/shutdown.d
+
+[Install]
+WantedBy=sysinit.target
+EOF
+
+RUN mkdir -p /usr/local/sbin/init.d
+RUN tee /usr/local/sbin/init.d/99-ready <<'EOF'
+#!/bin/bash
+
+# Indicate ready with heartbeat
+echo heartbeat > /sys/class/leds/led0/trigger
+EOF
+RUN chmod +x /usr/local/sbin/init.d/99-ready
+
+RUN mkdir -p /usr/local/sbin/shutdown.d
+RUN tee /usr/local/sbin/shutdown.d/00-shutdown <<'EOF'
+#!/bin/bash
+
+# Stop our "ready" indication in preparation for shutdown
+echo none > /sys/class/leds/led0/trigger
+EOF
+RUN chmod +x /usr/local/sbin/shutdown.d/00-shutdown
+
+# Enable our service
+RUN systemctl enable pi-bootstrap.service
+
+# # Install any additional scripts
+# if [[ -d "init.d" ]]; then
+#     INSTALL +x init.d /usr/local/sbin/init.d
+# fi
+
+# if [[ -d "shutdown.d" ]]; then
+#     INSTALL +x shutdown.d /usr/local/sbin/shutdown.d
+# fi

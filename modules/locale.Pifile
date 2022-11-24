@@ -1,0 +1,8 @@
+locale="${BOOTSTRAP_LOCALE:-en_US}"
+encoding="${BOOTSTRAP_ENCODING:-UTF-8}"
+
+# Set up locale
+RUN bash -c "echo LC_ALL=${locale}.${encoding} >> /etc/environment"
+RUN bash -c "echo ${locale}.${encoding} ${encoding} >> /etc/locale.gen"
+RUN bash -c "echo LANG=${locale}.${encoding} > /etc/locale.conf"
+RUN bash -c "DEBIAN_FRONTEND=noninteractive locale-gen ${locale}.${encoding}"
