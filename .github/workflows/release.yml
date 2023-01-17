@@ -18,22 +18,22 @@ jobs:
       - name: Write secrets.env
         env:
           SECRETS: ${{ secrets.SECRETS_ENV }}
-          PIFILE: bootstrap.Pifile
+          PIFILE: image.Pifile
         run: |
           echo $SECRETS > $(dirname $PIFILE)/secrets.env
 
       - name: Build image
         uses: Nature40/pimod@v0.4.4
         with:
-          pifile: bootstrap.Pifile
+          pifile: image.Pifile
           
       - name: Make tarball
         run: |
-          tar -czvf bootstrap.tar.gz bootstrap.img
+          tar -czvf image.tar.gz image.img
 
       - name: Publish binaries  
         uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: 'bootstrap.tar.gz'
+          args: 'image.tar.gz'
