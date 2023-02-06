@@ -28,10 +28,42 @@ The table below lists variables for each module in pi-bootstrap, confidential va
 |               | **BOOTSTRAP_WPA_SSID** 🔑       | SSID of your Wi-Fi network                                                                                                      | *None*                |
 |               | **BOOTSTRAP_WPA_PASSPHRASE** 🔑 | Passphrase of your Wi-Fi network                                                                                                | *None*                |
 |               | **BOOTSTRAP_WPA_COUNTRY**       | Two-character ISO-3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) for your country.              | *None*                |
-|  ```docker```  |                                 | Sets up docker and docker-compose                                                                                               |                       |
 
 ## Usage
 
 The flowchart below shows simple usage of pi-bootstrap.
 
-![Usage](assets/pi-bootstrap-usage.svg)
+```mermaid
+%%{
+  init: {
+    "theme": "dark",
+    "fontSize": 8,
+    "logLevel": "info",
+    "flowchart": {
+      "htmlLabels": true,
+      "curve": "linear"
+    }
+  }
+}%%
+flowchart
+B{Are you a developer\nmaking templates\nfor others?}
+B -- Yes --> C[Create a public repository]
+B -- No --> D[Create a private repository\nfrom this template]
+E[Edit <i>image.Pifile</i> to install\ncustom features/packages/files]
+C --> E
+D --> E
+E --> F[Edit <i>.env</i> to include\nany <b>public</b> env vars]
+F --> G{Are you building an\nimage on Github?}
+G -- No --> H[Add <b>private</b> env vars\n in <i>secrets.env</i>]
+G -- Yes --> I[Add <b>private</b> env vars\nin repository secret called\n<i>SECRETS_ENV</i>]
+H --> J[Run build using \n<i>sudo pimod/pimod.sh image.Pifile</i>]
+I --> K[Commit any changes to Github]
+K --> L[Run a build using the\n<i>manual</i> or <i>release</i> workflows]
+L --> M{Did the image build\nsuccessfully?}
+J --> M
+M -- No --> E
+M -- Yes --> N[Burn the image\nonto an SD card, test]
+N --> O[Did it work as expected?]
+O -- Yes --> P[Done!]
+O -- No --> E
+```

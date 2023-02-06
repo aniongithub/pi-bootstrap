@@ -1,3 +1,6 @@
 [submodule "pimod"]
 	path = pimod
 	url = https://github.com/Nature40/pimod.git
+[submodule "modules/contrib"]
+	path = modules/contrib
+	url = https://github.com/aniongithub/pi-bootstrap-contrib.git

@@ -28,7 +28,7 @@ INCLUDE modules/timezone.Pifile
 # and Wi-Fi will be blocked with rfkill
 INCLUDE modules/wifi.Pifile
 
-# Set our startup 
+# Set up our startup and one-time install processes
 INCLUDE modules/bootstrap.Pifile
 
 # Enable ethernet over USB
